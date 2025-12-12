@@ -1,11 +1,12 @@
 ﻿using DentalClinic.Data;
+using DentalClinic.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // MVC
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddTransient<IServicioEmail, ServicioEmail>();
 // DB Context
 builder.Services.AddDbContext<DentalClinicContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

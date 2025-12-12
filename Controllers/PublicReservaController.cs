@@ -1,9 +1,11 @@
 ﻿using DentalClinic.Data;
 using DentalClinic.Models;
-using Microsoft.Extensions.Configuration;
+using DentalClinic.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Security.Cryptography;
 
@@ -13,11 +15,13 @@ namespace DentalClinic.Controllers
     {
         private readonly DentalClinicContext _context;
         private readonly IConfiguration _config;
+        private readonly IServicioEmail _email;
 
-        public PublicReservaController(DentalClinicContext context, IConfiguration config)
+        public PublicReservaController(DentalClinicContext context, IConfiguration config, IServicioEmail email)
         {
             _context = context;
             _config = config;
+            _email = email;
         }
 
         // =========================================
@@ -145,8 +149,39 @@ namespace DentalClinic.Controllers
             var urlBase = $"{Request.Scheme}://{Request.Host}";
             var link = $"{urlBase}/PublicReserva/ViewReservation?token={reserva.AnonymousToken}";
 
-            await SendEmailAsync(email, "Su reserva - DentalClinic",
-                $"Gracias por su reserva.\nPuede ver el estado aquí:\n{link}");
+            string cuerpo = $@"
+            <table style=""max-width:600px;font-family:Arial;margin:auto;"">
+            <tr><td>
+
+            <h2 style=""color:#0b5ed7;"">Reserva Confirmada</h2>
+
+            <p>Hola <strong>{cliente.Nombre}</strong>,</p>
+
+            <p>Tu reserva ha sido creada exitosamente.</p>
+
+            <table style=""width:100%;border-collapse:collapse;margin-top:15px;"">
+            <tr>
+                <td style=""padding:8px;border:1px solid #ccc;"">Servicio:</td>
+                <td style=""padding:8px;border:1px solid #ccc;"">{servicio.Nombre}</td>
+            </tr>
+            <tr>
+                <td style=""padding:8px;border:1px solid #ccc;"">Fecha:</td>
+                <td style=""padding:8px;border:1px solid #ccc;"">{reserva.FechaHora:dd/MM/yyyy HH:mm}</td>
+            </tr>
+            <tr>
+                <td style=""padding:8px;border:1px solid #ccc;"">Precio:</td>
+                <td style=""padding:8px;border:1px solid #ccc;"">{reserva.PrecioTotal:C}</td>
+            </tr>
+            </table>
+
+            <p style=""margin-top:20px;"">Gracias por confiar en nosotros.</p>
+
+            </td></tr>
+            </table>
+        ";
+
+            await _email.EnviarEmail(email, "Su reserva - DentalClinic", cuerpo 
+                );
 
             return View("Thanks");
         }
@@ -199,9 +234,13 @@ namespace DentalClinic.Controllers
                 .Where(h => h.DentistaId == dentistaId && h.DiaSemana == dia)
                 .ToList();
 
+            // 1 = Lunes ... 7 = Domingo → DayOfWeek: 0 = Sunday, 1 = Monday...
+            int dayOfWeekEsperado = dia - 1;
+
             var horasOcupadas = _context.Reservas
-                .Where(r => r.DentistaId == dentistaId &&
-                            (int)r.FechaHora.DayOfWeek == (dia - 1))
+                .Where(r => r.DentistaId == dentistaId)
+                .AsEnumerable() // 👈 a partir de aquí se evalúa en memoria
+                .Where(r => (int)r.FechaHora.DayOfWeek == dayOfWeekEsperado)
                 .Select(r => r.FechaHora.TimeOfDay)
                 .ToList();
 
@@ -221,6 +260,8 @@ namespace DentalClinic.Controllers
 
             return Json(horasDisponibles);
         }
+
+
 
         private DateTime ObtenerProximaFecha(int diaSemana)
         {
