@@ -1,0 +1,25 @@
+﻿@model DentalClinic.Models.Dentista
+
+<h2 class="mb-3">Nuevo Dentista</h2>
+
+<form asp-action="Create" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Especialidad</label>
+        <input asp-for="Especialidad" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Teléfono</label>
+        <input asp-for="Telefono" class="form-control" />
+    </div>
+
+    <div class="col-12 mt-3">
+        <button class="btn btn-primary">Guardar</button>
+        <a href="/Dentista/Index" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>

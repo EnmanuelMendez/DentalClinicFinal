@@ -1,0 +1,32 @@
+﻿@model DentalClinic.Models.ConfiguracionEmpresa
+
+@{
+    ViewData["Title"] = "Eliminar Configuración";
+}
+
+<h2 class="text-danger mb-3">Eliminar Configuración</h2>
+
+<div class="alert alert-warning">
+    Esta acción no se puede deshacer. ¿Desea eliminar esta configuración?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Nombre</dt>
+    <dd class="col-sm-10">@Model.Nombre</dd>
+
+    <dt class="col-sm-2">Dirección</dt>
+    <dd class="col-sm-10">@Model.Direccion</dd>
+
+    <dt class="col-sm-2">Teléfono</dt>
+    <dd class="col-sm-10">@Model.Telefono</dd>
+
+    <dt class="col-sm-2">Horario</dt>
+    <dd class="col-sm-10">@Model.HorariosDescripcion</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+</form>

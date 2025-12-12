@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DentalClinic.Models.Servicio>
+@{
+    ViewData["Title"] = "Servicios";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>🏥 Servicios</h2>
+        <a asp-action="Create" class="btn btn-success">+ Nuevo Servicio</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No hay servicios registrados.</div>
+    }
+    else
+    {
+        <table class="table table-hover shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                    <th>Costo Base</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.DuracionMinutos min</td>
+                        <td>$@item.CostoBase.ToString("F2")</td>
+                        <td>
+                            <span class="badge bg-@(item.Activo ? "success" : "danger")">
+                                @(item.Activo ? "Activo" : "Inactivo")
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalles</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning ms-1">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger ms-1">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

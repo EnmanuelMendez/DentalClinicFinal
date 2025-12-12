@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DentalClinic.Models.Dentista>
+
+<h2 class="mb-3">Lista de Dentistas</h2>
+
+<a href="/Dentista/Create" class="btn btn-primary mb-3">➕ Nuevo Dentista</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Especialidad</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.Nombre</td>
+                <td>@d.Especialidad</td>
+                <td>@d.Telefono</td>
+                <td>
+                    <a class="btn btn-sm btn-info" href="/Dentista/Details/@d.Id">Detalles</a>
+                    <a class="btn btn-sm btn-warning ms-1" href="/Dentista/Edit/@d.Id">Editar</a>
+                    <a class="btn btn-sm btn-danger ms-1" href="/Dentista/Delete/@d.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+﻿@model DentalClinic.Models.HorarioAtencion
+
+@{
+    ViewData["Title"] = "Eliminar Horario";
+}
+
+<h2 class="text-danger mb-3">Eliminar Horario</h2>
+
+<div class="alert alert-warning">
+    ¿Está seguro que desea eliminar este horario?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Día</dt>
+    <dd class="col-sm-10">@Model.DiaSemana</dd>
+
+    <dt class="col-sm-2">Inicio</dt>
+    <dd class="col-sm-10">@Model.HoraInicio.ToString(@"hh\:mm")</dd>
+
+    <dt class="col-sm-2">Fin</dt>
+    <dd class="col-sm-10">@Model.HoraFin.ToString(@"hh\:mm")</dd>
+
+    <dt class="col-sm-2">Médico</dt>
+    <dd class="col-sm-10">@Model.Dentista?.Nombre</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+</form>

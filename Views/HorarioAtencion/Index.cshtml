@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DentalClinic.Models.HorarioAtencion>
+
+@{
+    ViewData["Title"] = "Horarios de Atención";
+}
+
+<h2 class="mb-3">Horarios de Atención por Médico</h2>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Nuevo Horario</a>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Día</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Médico</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var h in Model)
+        {
+            <tr>
+                <td>@ObtenerDia(h.DiaSemana)</td>
+                <td>@h.HoraInicio.ToString(@"hh\:mm")</td>
+                <td>@h.HoraFin.ToString(@"hh\:mm")</td>
+                <td>@h.Dentista?.Nombre</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@h.Id" class="btn btn-sm btn-info">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@h.Id" class="btn btn-sm btn-warning ms-2">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@h.Id" class="btn btn-sm btn-danger ms-2">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+    string ObtenerDia(int numero)
+    {
+        return numero switch
+        {
+            1 => "Lunes",
+            2 => "Martes",
+            3 => "Miércoles",
+            4 => "Jueves",
+            5 => "Viernes",
+            6 => "Sábado",
+            7 => "Domingo",
+            _ => "Desconocido"
+        };
+    }
+}

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DentalClinic.Models.Valoracion>
+
+@{
+    ViewData["Title"] = "Valoraciones";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>⭐ Valoraciones de Clientes</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/Admin/Dashboard" class="btn btn-secondary">← Volver al Dashboard</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            No hay valoraciones registradas aún.
+        </div>
+    }
+    else
+    {
+        @foreach (var val in Model)
+        {
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="mb-0">
+                                @val.Reserva?.Cliente?.Nombre
+                                <span class="badge bg-info ms-2">
+                                    @val.Reserva?.Servicio?.Nombre
+                                </span>
+                            </h5>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="text-warning">
+                                @for (int i = 0; i < val.Puntuacion; i++)
+                                {
+                                    <span>⭐</span>
+                                }
+                            </span>
+                            <small class="text-muted ms-2">@val.Fecha.ToString("dd/MM/yyyy HH:mm")</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>@val.Comentario</p>
+                </div>
+            </div>
+        }
+    }
+</div>

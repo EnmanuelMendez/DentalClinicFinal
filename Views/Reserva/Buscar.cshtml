@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Buscar Reserva";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">🔍 Buscar Reserva por Email</h5>
+                </div>
+
+                <div class="card-body">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Error</div>
+                    }
+
+                    <form method="post" asp-action="Buscar">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email" name="email" class="form-control" required />
+
+                        <button class="btn btn-primary w-100 mt-3">Buscar</button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

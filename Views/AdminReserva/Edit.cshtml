@@ -1,0 +1,54 @@
+﻿@model DentalClinic.Models.Reserva
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<h2 class="mb-3">Editar Reserva</h2>
+
+<form asp-action="Edit" method="post" class="row g-3">
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ClienteId" />
+
+    <div class="col-md-6">
+        <label class="form-label">Cliente</label>
+        <input class="form-control" value="@Model.Cliente?.Nombre" disabled />
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Servicio</label>
+        <select asp-for="ServicioId" class="form-select" asp-items="ViewBag.Servicios"></select>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="FechaHora" class="form-label">Fecha y hora</label>
+        <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Estado" class="form-label">Estado</label>
+        <select asp-for="Estado" class="form-select">
+            <option>Pendiente</option>
+            <option>Completada</option>
+            <option>Cancelada</option>
+        </select>
+    </div>
+
+    <div class="col-md-12">
+        <label asp-for="PrecioTotal" class="form-label">Precio</label>
+        <input asp-for="PrecioTotal" class="form-control" />
+    </div>
+
+    <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<DentalClinic.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Mis Reservas";
+}
+
+<div class="container mt-5">
+    <h2>📋 Mis Reservas</h2>
+    <p class="text-muted">Cliente: <strong>@ViewBag.ClienteNombre</strong></p>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info mt-4">No hay reservas registradas.</div>
+    }
+    else
+    {
+        <div class="row mt-4">
+
+            @foreach (var reserva in Model)
+            {
+                <div class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">
+                                #@reserva.Id — @reserva.Servicio?.Nombre
+                            </h5>
+                        </div>
+
+                        <div class="card-body">
+                            <p><strong>Fecha:</strong> @reserva.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+                            <p><strong>Dentista:</strong> @reserva.Dentista?.Nombre</p>
+                            <p><strong>Precio:</strong> $@reserva.PrecioTotal.ToString("F2")</p>
+
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="badge bg-@GetEstadoColor(reserva.Estado)">
+                                    @reserva.Estado
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="/Reserva/Edit/@reserva.Id" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="/Reserva/Details/@reserva.Id" class="btn btn-sm btn-secondary ms-2">Detalles</a>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>
+
+@functions {
+    string GetEstadoColor(string estado)
+    {
+        return estado switch
+        {
+            "Pendiente" => "warning",
+            "Confirmada" => "success",
+            "Finalizado" => "info",
+            "Cancelada" => "danger",
+            _ => "secondary"
+        };
+    }
+}

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DentalClinic.Models.Reserva>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">📋 Mis Reservas</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No hay reservas asociadas a este enlace.</div>
+    }
+    else
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>@r.Servicio?.Nombre</td>
+                        <td>@r.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge bg-@(r.Estado switch {
+                                "Pendiente" => "warning",
+                                "Confirmada" => "info",
+                                "Finalizado" => "success",
+                                "Cancelada" => "danger",
+                                _ => "secondary"
+                            })">@r.Estado</span>
+                        </td>
+                        <td>$@r.PrecioTotal.ToString("F2")</td>
+                        <td>
+                            <a asp-action="Queja"
+                               asp-route-token="@ViewBag.Token"
+                               asp-route-reservaId="@r.Id"
+                               class="btn btn-warning btn-sm">Queja</a>
+
+                            <a asp-action="Valoracion"
+                               asp-route-token="@ViewBag.Token"
+                               asp-route-reservaId="@r.Id"
+                               class="btn btn-success btn-sm">⭐ Valorar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

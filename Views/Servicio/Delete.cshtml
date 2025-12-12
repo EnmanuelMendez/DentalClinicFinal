@@ -1,0 +1,49 @@
+﻿@model DentalClinic.Models.Servicio
+@{
+    ViewData["Title"] = "Eliminar Servicio";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">🗑️ Eliminar Servicio</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                    </div>
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Nombre:</dt>
+                        <dd class="col-sm-9">@Model.Nombre</dd>
+
+                        <dt class="col-sm-3">Descripción:</dt>
+                        <dd class="col-sm-9">@Model.Descripcion</dd>
+
+                        <dt class="col-sm-3">Duración:</dt>
+                        <dd class="col-sm-9">@Model.DuracionMinutos minutos</dd>
+
+                        <dt class="col-sm-3">Costo Base:</dt>
+                        <dd class="col-sm-9">$@Model.CostoBase.ToString("F2")</dd>
+                    </dl>
+
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <button class="btn btn-danger btn-lg">Eliminar</button>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

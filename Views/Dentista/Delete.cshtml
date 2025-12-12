@@ -1,0 +1,19 @@
+﻿@model DentalClinic.Models.Dentista
+
+<h2 class="text-danger">Eliminar Dentista</h2>
+
+<p>¿Seguro que deseas eliminar este dentista?</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Nombre</dd>
+
+    <dt class="col-sm-3">Especialidad</dt>
+    <dd class="col-sm-9">@Model.Especialidad</dd>
+</dl>
+
+<form method="post" asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Eliminar</button>
+    <a href="/Dentista/Index" class="btn btn-secondary ms-2">Cancelar</a>
+</form>

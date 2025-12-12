@@ -1,0 +1,39 @@
+﻿@model DentalClinic.Models.Cliente
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">Eliminar Cliente</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        <strong>Advertencia:</strong> Esta acción eliminará el cliente y todas sus reservas asociadas.
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p><strong>Nombre:</strong> @Model.Nombre</p>
+                            <p><strong>Email:</strong> @Model.Email</p>
+                            <p><strong>Teléfono:</strong> @Model.Telefono</p>
+                            <p><strong>Total Reservas:</strong> @(Model.Reservas?.Count ?? 0)</p>
+                        </div>
+                    </div>
+
+                    <form asp-action="DeleteConfirmed" method="post" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <button class="btn btn-danger btn-lg">Sí, eliminar</button>
+                    </form>
+
+                    <a href="/Cliente/Index" class="btn btn-secondary btn-lg">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

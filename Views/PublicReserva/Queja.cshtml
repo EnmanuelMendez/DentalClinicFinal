@@ -1,0 +1,40 @@
+﻿@model DentalClinic.Models.Reserva
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">📝 Enviar una Queja</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">Información de la Reserva</div>
+        <div class="card-body">
+            <p><strong>Servicio:</strong> @Model.Servicio?.Nombre</p>
+            <p><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+        </div>
+    </div>
+
+    <form method="post">
+
+        <input type="hidden" name="reservaId" value="@Model.Id" />
+
+        <div class="card">
+            <div class="card-header bg-danger text-white">Describe tu queja</div>
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Asunto *</label>
+                    <input name="asunto" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea name="descripcion" rows="5" class="form-control"></textarea>
+                </div>
+
+                <button class="btn btn-danger w-100">Enviar Queja</button>
+            </div>
+        </div>
+
+    </form>
+</div>

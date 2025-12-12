@@ -1,0 +1,70 @@
+﻿@model DentalClinic.Models.Reserva
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+<div class="container mt-4">
+
+    <h2>✏️ Editar Reserva #@Model.Id</h2>
+
+    <form method="post" asp-action="Edit" class="mt-4">
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ClienteId" />
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                Información General
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Servicio</label>
+                        <select asp-for="ServicioId" class="form-select" asp-items="ViewBag.Servicios"></select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Dentista</label>
+                        <select asp-for="DentistaId" class="form-select" asp-items="ViewBag.Dentistas"></select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Fecha y hora</label>
+                        <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Estado</label>
+                        <select asp-for="Estado" class="form-select">
+                            <option>Pendiente</option>
+                            <option>Confirmada</option>
+                            <option>Finalizado</option>
+                            <option>Cancelada</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio Total</label>
+                    <input asp-for="PrecioTotal" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Duración Real (minutos)</label>
+                    <input asp-for="DuracionRealMinutos" class="form-control" />
+                </div>
+
+            </div>
+        </div>
+
+        <button class="btn btn-primary mt-3">Guardar Cambios</button>
+        <a href="/Reserva/Index" class="btn btn-secondary mt-3 ms-2">Cancelar</a>
+
+    </form>
+
+</div>

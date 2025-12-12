@@ -1,0 +1,45 @@
+﻿@model DentalClinic.Models.ConfiguracionEmpresa
+
+@{
+    ViewData["Title"] = "Nueva Configuración";
+}
+
+<h2 class="mb-3">Nueva Configuración</h2>
+
+<form asp-action="Create" method="post" class="row g-3">
+
+    <div class="col-md-6">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Telefono" class="form-label"></label>
+        <input asp-for="Telefono" class="form-control" />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Direccion" class="form-label"></label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="HorariosDescripcion" class="form-label">Descripción del Horario</label>
+        <textarea asp-for="HorariosDescripcion" class="form-control"></textarea>
+    </div>
+
+    <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

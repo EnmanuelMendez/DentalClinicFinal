@@ -1,0 +1,76 @@
+﻿@model IEnumerable<DentalClinic.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>📋 Gestión de Reservas</h2>
+        <a href="/Reserva/Buscar" class="btn btn-primary">Buscar Reserva</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No hay reservas registradas.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Servicio</th>
+                    <th>Dentista</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td>#@r.Id</td>
+                        <td>@r.Cliente?.Nombre</td>
+                        <td>@r.Servicio?.Nombre</td>
+                        <td>@r.Dentista?.Nombre</td>
+                        <td>@r.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span class="badge bg-@GetEstadoColor(r.Estado)">
+                                @r.Estado
+                            </span>
+                        </td>
+                        <td>$@r.PrecioTotal.ToString("F2")</td>
+
+                        <td>
+                            <a href="/Reserva/Edit/@r.Id" class="btn btn-sm btn-primary">Editar</a>
+                            <a href="/Reserva/Details/@r.Id" class="btn btn-sm btn-secondary">Detalles</a>
+                            @if (r.Estado != "Cancelada")
+                            {
+                                <a href="/Reserva/Cancelar/@r.Id" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('¿Cancelar reserva?')">Cancelar</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@functions {
+    string GetEstadoColor(string estado) =>
+        estado switch
+        {
+            "Pendiente" => "warning",
+            "Confirmada" => "success",
+            "Finalizado" => "info",
+            "Cancelada" => "danger",
+            _ => "secondary"
+        };
+}

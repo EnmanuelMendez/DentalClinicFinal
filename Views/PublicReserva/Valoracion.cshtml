@@ -1,0 +1,67 @@
+﻿@model DentalClinic.Models.Reserva
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">⭐ Valorar Servicio</h1>
+
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Información de la Reserva</h5>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Servicio:</strong> @Model.Servicio?.Nombre</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                    </div>
+                    <span class="badge bg-info">@Model.Estado</span>
+                </div>
+            </div>
+
+            <form method="post" asp-action="Valoracion" class="mt-4">
+                <input type="hidden" name="reservaId" value="@Model.Id" />
+
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Comparte tu experiencia</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label class="form-label">Puntuación (1-5 estrellas) *</label>
+                            <div>
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    var stars = string.Concat(Enumerable.Repeat("⭐", i));
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="estrellas" id="star@i" value="@i" @(i == 5 ? "checked" : "") required />
+                                        <label class="form-check-label" for="star@i">
+                                            @stars
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Comentario</label>
+                            <textarea name="comentario" class="form-control" rows="5" placeholder="Cuéntanos tu experiencia..."></textarea>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>ℹ️ Nota:</strong> Tu valoración nos ayuda a mantener la calidad de nuestros servicios.
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 btn-lg">✅ Enviar Valoración</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

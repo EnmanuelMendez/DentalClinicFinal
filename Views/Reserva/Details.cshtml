@@ -1,0 +1,72 @@
+﻿@model DentalClinic.Models.Reserva
+
+@{
+    ViewData["Title"] = "Detalles de Reserva";
+}
+
+<div class="container mt-4">
+
+    <h2>📘 Detalles de la Reserva #@Model.Id</h2>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Cliente
+                </div>
+                <div class="card-body">
+                    <p><strong>Nombre:</strong> @Model.Cliente?.Nombre</p>
+                    <p><strong>Email:</strong> @Model.Cliente?.Email</p>
+                    <p><strong>Teléfono:</strong> @Model.Cliente?.Telefono</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    Servicio
+                </div>
+                <div class="card-body">
+                    <p><strong>Servicio:</strong> @Model.Servicio?.Nombre</p>
+                    <p><strong>Dentista:</strong> @Model.Dentista?.Nombre</p>
+                    <p><strong>Precio:</strong> $@Model.PrecioTotal.ToString("F2")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-header bg-info text-white">
+            Información de la Reserva
+        </div>
+        <div class="card-body">
+            <p><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+            <p>
+                <strong>Estado:</strong>
+                <span class="badge bg-@GetEstadoColor(Model.Estado)">
+                    @Model.Estado
+                </span>
+            </p>
+            <p><strong>Duración real:</strong> @Model.DuracionRealMinutos min</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/Reserva/Edit/@Model.Id" class="btn btn-warning">Editar</a>
+        <a href="/Reserva/Index" class="btn btn-secondary">Volver</a>
+    </div>
+
+</div>
+
+@functions {
+    string GetEstadoColor(string estado) =>
+        estado switch
+        {
+            "Pendiente" => "warning",
+            "Confirmada" => "success",
+            "Finalizado" => "info",
+            "Cancelada" => "danger",
+            _ => "secondary"
+        };
+}

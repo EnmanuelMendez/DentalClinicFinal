@@ -1,0 +1,17 @@
+﻿@model DentalClinic.Models.Dentista
+
+<h2 class="mb-3">Detalle del Dentista</h2>
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Nombre</dd>
+
+    <dt class="col-sm-3">Especialidad</dt>
+    <dd class="col-sm-9">@Model.Especialidad</dd>
+
+    <dt class="col-sm-3">Teléfono</dt>
+    <dd class="col-sm-9">@Model.Telefono</dd>
+</dl>
+
+<a href="/Dentista/Edit/@Model.Id" class="btn btn-warning">Editar</a>
+<a href="/Dentista/Index" class="btn btn-secondary ms-2">Volver</a>

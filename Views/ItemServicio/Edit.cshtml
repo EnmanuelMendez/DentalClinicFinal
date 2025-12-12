@@ -1,0 +1,37 @@
+﻿@model DentalClinic.Models.ItemServicio
+
+@{
+    ViewData["Title"] = "Editar Item";
+}
+
+<h2 class="mb-3">Editar Item</h2>
+
+<form asp-action="Edit" method="post" class="row g-3">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ServicioId" class="form-label">Servicio</label>
+        <select asp-for="ServicioId" class="form-select" asp-items="ViewBag.Servicios"></select>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CostoAdicional" class="form-label"></label>
+        <input asp-for="CostoAdicional" class="form-control" />
+    </div>
+
+    <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

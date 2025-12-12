@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DentalClinic.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Panel de Reservas";
+}
+
+<h2 class="mb-4">Panel de Reservas</h2>
+
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="busqueda" placeholder="Buscar por nombre o email"
+               value="@Context.Request.Query["busqueda"]"
+               class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Buscar</button>
+    </div>
+</form>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Precio</th>
+            <th style="width:200px;">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center">No hay reservas registradas.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Cliente?.Nombre</td>
+                    <td>@r.Cliente?.Email</td>
+                    <td>@r.Servicio?.Nombre</td>
+                    <td>@r.FechaHora.ToString("dd/MM/yyyy hh:mm tt")</td>
+                    <td>
+                        <span class="badge
+                            @(r.Estado == "Pendiente" ? "bg-warning" :
+                              r.Estado == "Completada" ? "bg-success" :
+                              "bg-danger")">
+                            @r.Estado
+                        </span>
+                    </td>
+                    <td>@r.PrecioTotal.ToString("C")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@r.Id" class="btn btn-sm btn-secondary">
+                            Editar
+                        </a>
+
+                        @if (r.Estado == "Pendiente")
+                        {
+                            <a asp-action="Completar" asp-route-id="@r.Id"
+                               class="btn btn-sm btn-success ms-2">
+                                Completar
+                            </a>
+
+                            <a asp-action="Cancelar" asp-route-id="@r.Id"
+                               class="btn btn-sm btn-danger ms-2">
+                                Cancelar
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

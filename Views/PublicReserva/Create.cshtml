@@ -1,0 +1,134 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <h1 class="mb-4">📅 Crear Reserva</h1>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos personales</h5>
+                </div>
+
+                <div class="card-body">
+                    <form method="post">
+
+                        <!-- DATOS DEL CLIENTE -->
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Completo *</label>
+                            <input class="form-control" name="nombre" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cédula *</label>
+                            <input class="form-control" name="cedula" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono</label>
+                            <input class="form-control" name="telefono" />
+                        </div>
+
+                        <!-- SERVICIO -->
+                        <div class="mb-3">
+                            <label class="form-label">Servicio *</label>
+                            <select class="form-select" name="servicioId" id="servicioSelect" required>
+                                <option value="">-- Selecciona un servicio --</option>
+                                @foreach (var s in (IEnumerable<SelectListItem>)ViewBag.Servicios)
+                                {
+                                    <option value="@s.Value">@s.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- DENTISTA -->
+                        <div class="mb-3">
+                            <label class="form-label">Dentista *</label>
+                            <select class="form-select" name="dentistaId" id="dentistaSelect" required>
+                                <option value="">-- Selecciona un dentista --</option>
+                                @foreach (var d in (IEnumerable<SelectListItem>)ViewBag.Dentistas)
+                                {
+                                    <option value="@d.Value">@d.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- FECHA -->
+                        <div class="mb-3">
+                            <label class="form-label">Día disponible *</label>
+                            <select class="form-select" id="diaSelect" name="dia" required>
+                                <option value="">-- Selecciona un día --</option>
+                            </select>
+                        </div>
+
+                        <!-- HORA -->
+                        <div class="mb-3">
+                            <label class="form-label">Hora disponible *</label>
+                            <select class="form-select" id="horaSelect" name="hora" required>
+                                <option value="">-- Selecciona una hora --</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">
+                            Confirmar Reserva
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        // Cambiar días disponibles
+        document.getElementById("dentistaSelect").addEventListener("change", function () {
+            var dentistaId = this.value;
+            var diaSelect = document.getElementById("diaSelect");
+
+            diaSelect.innerHTML = "<option>Cargando...</option>";
+
+            fetch(`/PublicReserva/ObtenerDiasDisponibles?dentistaId=${dentistaId}`)
+                .then(r => r.json())
+                .then(data => {
+                    diaSelect.innerHTML = "<option value=''>-- Selecciona un día --</option>";
+                    data.forEach(d => {
+                        diaSelect.innerHTML += `<option value="${d.value}">${d.text}</option>`;
+                    });
+                });
+        });
+
+        // Cambiar horas disponibles
+        document.getElementById("diaSelect").addEventListener("change", function () {
+            var dentistaId = document.getElementById("dentistaSelect").value;
+            var dia = this.value;
+            var horaSelect = document.getElementById("horaSelect");
+
+            horaSelect.innerHTML = "<option>Cargando...</option>";
+
+            fetch(`/PublicReserva/ObtenerHorasDisponibles?dentistaId=${dentistaId}&dia=${dia}`)
+                .then(r => r.json())
+                .then(data => {
+                    horaSelect.innerHTML = "<option value=''>-- Selecciona una hora --</option>";
+                    data.forEach(h => {
+                        horaSelect.innerHTML += `<option value="${h}">${h}</option>`;
+                    });
+                });
+        });
+    </script>
+
+}

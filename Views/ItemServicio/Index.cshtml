@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DentalClinic.Models.ItemServicio>
+
+@{
+    ViewData["Title"] = "Items del Servicio";
+}
+
+<h2 class="mb-3">Items Adicionales</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Nuevo Item</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Item</th>
+            <th>Servicio</th>
+            <th>Costo Adicional</th>
+            <th style="width:200px;">Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">No hay items registrados.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Servicio?.Nombre</td>
+                    <td>@item.CostoAdicional.ToString("C")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalles</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning ms-2">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger ms-2">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

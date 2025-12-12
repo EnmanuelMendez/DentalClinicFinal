@@ -1,0 +1,40 @@
+﻿@model DentalClinic.Models.ViewModels.ReservaViewModel
+
+@{
+    ViewData["Title"] = "Nueva Reserva";
+}
+
+<h2 class="mb-4">Crear reserva para @Model.Cliente.Nombre</h2>
+
+<form asp-action="Create" method="post" class="row g-3">
+
+    <input type="hidden" asp-for="ClienteId" />
+
+    <div class="col-md-4">
+        <label class="form-label">Servicio</label>
+        <select asp-for="ServicioId" asp-items="Model.Servicios" class="form-select"></select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Dentista</label>
+        <select asp-for="DentistaId" class="form-select" asp-items="ViewBag.Dentistas">
+            <option value="">Seleccione un dentista</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Fecha y hora</label>
+        <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+    </div>
+
+    <div class="col-12 mt-4">
+        <button class="btn btn-primary">Guardar</button>
+        <a asp-action="MisReservas" asp-route-clienteId="@Model.Cliente.Id"
+           class="btn btn-secondary ms-2">Volver</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
